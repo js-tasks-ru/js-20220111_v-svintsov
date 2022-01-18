@@ -8,7 +8,7 @@ export const omit = (obj, ...fields) => {
   let requiredObj = {};
   Object.assign(requiredObj, obj);
 
-  for (let [, forbiddenField] of Object.entries(fields)) {
+  for (let forbiddenField of fields) {
     if (forbiddenField in requiredObj) {
       delete requiredObj[forbiddenField];
     }
