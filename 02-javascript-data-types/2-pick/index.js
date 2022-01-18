@@ -7,7 +7,7 @@
 export const pick = (obj, ...fields) => {
   let requiredObj = {};
 
-  for (let [, requiredField] of Object.entries(fields)) {
+  for (let requiredField of fields) {
     if (requiredField in obj) {
       requiredObj[requiredField] = obj[requiredField];
     }
