@@ -5,5 +5,13 @@
  * @returns {object} - returns the new object
  */
 export const pick = (obj, ...fields) => {
+  const requiredObj = {};
 
+  for (const requiredField of fields) {
+    if (obj.hasOwnProperty(requiredField)) {
+      requiredObj[requiredField] = obj[requiredField];
+    }
+  }
+
+  return requiredObj;
 };
