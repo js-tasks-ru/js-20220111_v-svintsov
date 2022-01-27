@@ -5,7 +5,8 @@ export default class ColumnChart {
       label = "",
       value = 0,
       link = "",
-      formatHeading = data => data
+      formatHeading = data => data,
+      isNeedRender = true
     } = {}
   ) {
     this.data = data;
@@ -13,11 +14,28 @@ export default class ColumnChart {
     this.value = formatHeading(value);
     this.link = link;
 
-    this._render();
+    this.element = null;
+    this.subElements = {};
+
+    if (isNeedRender) {
+      this.render();
+    }
+
   }
 
   get chartHeight() {
     return 50;
+  }
+
+  render() {
+    const divElement = document.createElement('div');
+    divElement.innerHTML = this._getTemplate();
+    this.element = divElement.firstElementChild;
+
+    this.subElements = {};
+    for (const subElement of this.element.querySelectorAll('[data-element]')) {
+      this.subElements[subElement.dataset.element] = subElement;
+    }
   }
 
   update (data) {
@@ -26,11 +44,15 @@ export default class ColumnChart {
   }
 
   remove () {
-    this.element.remove();
+    if (this.element) {
+      this.element.remove();
+    }
   }
 
   destroy() {
     this.remove();
+    this.element = null;
+    this.subElements = {};
   }
 
   _getColumnTemplate() {
@@ -71,15 +93,6 @@ export default class ColumnChart {
      `;
   }
 
-  _render() {
-    const divElement = document.createElement('div');
-    divElement.innerHTML = this._getTemplate();
-    this.element = divElement.firstElementChild;
 
-    this.subElements = {};
-    for (const subElement of this.element.querySelectorAll('[data-element]')) {
-      this.subElements[subElement.dataset.element] = subElement;
-    }
-  }
 
 }
